@@ -1,0 +1,18 @@
+{
+	"name": "GreenhouseCalc",
+	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rhaen/GreenhouseCalc.git"
+	},
+	"description": "A library that helps you to calculate greenhouse topics such as VPD.",
+	"keywords": "esp32, esp8266, arduino, greenhouse, vpd, vapor pressure deficit",
+	"authors": {
+		"name": "Ulrich Habel",
+		"email": "rhaen@pkgbox.de",
+		"url": "https://www.pkgbox.de"
+	},
+	"license": "MIT",
+	"frameworks": "*",
+	"platforms": "*"
+}
