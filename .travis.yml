@@ -1,36 +1,45 @@
-language: c
+language: python
+python:
+    - "2.7"
 
+sudo: false
 cache:
   directories:
     - "~/.platformio"
 
-jobs:
-  include:
-    - name: "Arduino UNO build"
-      env: BOARD="arduino:avr:uno"
-    - name: "NodeMCU E12 (8266) build"
-      env: BOARD="esp8266:esp8266:nodemcu"
+branches:
+  only:
+  - feat
 
+# Install dependencies
+addons:
+  apt:
+    packages:
+      - doxygen
 
-before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
-  - sleep 3
-  - export DISPLAY=:1.0
-  - wget http://downloads.arduino.cc/arduino-1.8.12-linux64.tar.xz
-  - tar xf arduino-1.8.12-linux64.tar.xz
-  - sudo mv arduino-1.8.12 /usr/local/share/arduino
-  - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
-
+env:
+    - PLATFORMIO_CI_SRC=examples/VPD.ino
+    - PLATFORMIO_CI_SRC=examples/SVP.ino
+    - PLATFORMIO_CI_SRC=examples/AVP.ino
+    - PLATFORMIO_CI_SRC=examples/RH.ino
+    - PLATFORMIO_CI_SRC=examples/FtoC.ino
+    - PLATFORMIO_CI_SRC=examples/CtoF.ino                    
 
 install:
-  - ln -s $PWD /usr/local/share/arduino/libraries/GreenhouseCalc
-  - arduino --pref "boardsmanager.additional.urls=http://arduino.esp8266.com/stable/package_esp8266com_index.json" --save-prefs
-  - arduino --install-boards esp8266:esp8266 --save-prefs
-
+    - pip install -U platformio
 
 script:
-  - arduino -v --verify --board $BOARD $PWD/examples/Basic.ino
+  - platformio ci --lib="." --board=uno --board=megaatmega2560 --board=esp12e --board=nodemcu --board=esp32dev
+#  - doxygen Doxyfile
 
+# Generate and deploy documentation
+#deploy:
+#  provider: pages
+#  skip_cleanup: true
+#  local_dir: html
+#  github_token: $GH_REPO_TOKEN
+#  on:
+#    branch: feat
 
 notifications:
   email:
