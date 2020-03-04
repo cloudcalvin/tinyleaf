@@ -1,0 +1,18 @@
+i{
+	"name": "TinyLeaf",
+	"version": "0.0.2",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rhaen/tinyleaf.git"
+	},
+	"description": "Arduino Library for greenhouse calculations",
+	"keywords": "esp32, esp8266, arduino, greenhouse, vpd, vapor pressure deficit",
+	"authors": {
+		"name": "Ulrich Habel",
+		"email": "rhaen@pkgbox.de",
+		"url": "http://rhaen.github.io/tinyleaf"
+	},
+	"license": "MIT",
+	"frameworks": "*",
+	"platforms": "*"
+}
