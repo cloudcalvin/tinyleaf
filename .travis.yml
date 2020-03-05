@@ -9,13 +9,14 @@ cache:
 
 branches:
   only:
-  - feat
+  - master
 
 # Install dependencies
 addons:
   apt:
     packages:
       - doxygen
+      - jq
 
 env:
     - PLATFORMIO_CI_SRC=examples/VPD.ino
@@ -23,23 +24,24 @@ env:
     - PLATFORMIO_CI_SRC=examples/AVP.ino
     - PLATFORMIO_CI_SRC=examples/RH.ino
     - PLATFORMIO_CI_SRC=examples/FtoC.ino
-    - PLATFORMIO_CI_SRC=examples/CtoF.ino                    
+    - PLATFORMIO_CI_SRC=examples/CtoF.ino
 
 install:
     - pip install -U platformio
 
 script:
   - platformio ci --lib="." --board=uno --board=megaatmega2560 --board=esp12e --board=nodemcu --board=esp32dev
-#  - doxygen Doxyfile
+  - jq . library.json
+  - doxygen Doxyfile
 
 # Generate and deploy documentation
-#deploy:
-#  provider: pages
-#  skip_cleanup: true
-#  local_dir: html
-#  github_token: $GH_REPO_TOKEN
-#  on:
-#    branch: feat
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: html
+  github_token: $GH_REPO_TOKEN
+  on:
+    branch: master
 
 notifications:
   email:
